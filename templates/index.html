@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ou & Milin Chaty</title>
+</head>
+<body>
+
+    <ul id="messages"></ul>
+    <form action="" id="form">
+        <input id="input" autocomplete="off" name="" /><button>Send</button>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + '172.24.11.160' + ':' + location.port);
+
+        socket.on('message', function(msg) {
+            var ul = document.getElementById('messages');
+            var li = document.createElement('li');
+            li.appendChild(document.createTextNode(msg));
+            ul.appendChild(li);
+        });
+
+        document.getElementById('form').onsubmit = function (){
+            socket.emit('message', document.getElementById('input').value);
+            document.getElementById('input').value = '';
+            return false;
+        };
+    </script>
+    
+</body>
+</html>
